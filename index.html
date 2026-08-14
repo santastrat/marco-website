@@ -27,16 +27,35 @@ body{min-height:100vh;display:flex;justify-content:center}
 
 .content{width:100%;text-align:center}
 
-/* Larger logo; black logo background blends into the dark photo */
-.logo{
-  width:min(330px,82vw);
+/* Brand header: symbol and name are separate so the name can be truly large */
+.brand{
+  width:min(470px,94vw);
+  margin:0 auto 8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+}
+.brand-symbol{
+  width:150px;
   height:auto;
   display:block;
-  margin:0 auto 8px;
-  mix-blend-mode:screen;
-  filter:sepia(.32) saturate(.72) brightness(1.08);
-  opacity:.96;
+  filter:sepia(.30) saturate(.70) brightness(1.08);
+  opacity:.98;
 }
+.brand-name{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:5px;
+  color:#f0dfb0;
+  font-weight:600;
+  font-size:34px;
+  line-height:1;
+  letter-spacing:9px;
+  text-shadow:0 2px 10px rgba(0,0,0,.65);
+}
+
 
 .subtitle{
   margin:5px 0 0;
@@ -147,7 +166,9 @@ body{min-height:100vh;display:flex;justify-content:center}
     padding:17px 10px 18px;
     background-position:34% center;
   }
-  .logo{width:min(315px,82vw)}
+  .brand{width:min(430px,94vw);gap:12px}
+  .brand-symbol{width:132px}
+  .brand-name{font-size:29px;letter-spacing:7px}
   .subtitle{font-size:9px;letter-spacing:3.2px}
   .message-wrap,.buttons{width:62%;margin-right:1%}
   .message{font-size:17px}
@@ -163,7 +184,9 @@ body{min-height:100vh;display:flex;justify-content:center}
 }
 
 @media(max-height:720px){
-  .logo{width:300px}
+  .brand{width:min(385px,92vw)}
+  .brand-symbol{width:116px}
+  .brand-name{font-size:25px;letter-spacing:6px}
   .subtitle:after{margin:9px auto 11px}
   .heart-top{margin:8px 0 10px}
   .buttons{gap:6px}
@@ -171,13 +194,60 @@ body{min-height:100vh;display:flex;justify-content:center}
   .phone{margin-top:12px}
 }
 </style>
+
+<style>
+/* Final logo sizing override */
+.logo{
+  width:min(430px,92vw) !important;
+  max-width:none !important;
+  height:auto !important;
+  margin:0 auto 12px !important;
+}
+@media (max-width:420px){
+  .logo{
+    width:min(360px,88vw) !important;
+  }
+}
+@media (max-height:720px){
+  .logo{
+    width:min(390px,90vw) !important;
+  }
+}
+</style>
+
+
+<style>
+.logo{
+  display:block !important;
+  width:min(390px,88vw) !important;
+  max-width:none !important;
+  height:auto !important;
+  margin:0 auto 12px !important;
+  opacity:1 !important;
+  mix-blend-mode:normal !important;
+  filter:none !important;
+}
+@media(max-width:420px){
+  .logo{width:min(330px,84vw) !important;}
+}
+@media(max-height:720px){
+  .logo{width:min(350px,86vw) !important;}
+}
+</style>
+
 </head>
 
 <body>
 <main class="page">
   <div class="content">
 
-    <img class="logo" src="logo-cropped.png" alt="Marco Vendramin">
+    <div class="brand">
+  <img class="brand-symbol" src="logo-symbol.png" alt="">
+  <div class="brand-name">
+    <span>MARCO</span>
+    <span>VENDRAMIN</span>
+  </div>
+</div>
     <div class="subtitle">Acoustic Live Music</div>
     <div class="divider"></div>
 
