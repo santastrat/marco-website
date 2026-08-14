@@ -5,120 +5,270 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#111111">
 <title>Marco Vendramin – Acoustic Live Music</title>
+
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:#fff;background:#111}
-body{min-height:100vh;display:flex;justify-content:center}
-.page{
-  width:100%;max-width:560px;min-height:100vh;padding:26px 18px 22px;
-  display:flex;align-items:center;justify-content:center;
-  background:
-    linear-gradient(to bottom,rgba(0,0,0,.18),rgba(0,0,0,.48)),
-    url("background.jpg") center/cover no-repeat;
-}
-.content{width:100%;text-align:center}
-.logo{width:min(150px,36vw);height:auto;margin:0 auto 8px;display:block}
-.subtitle{font-size:12px;letter-spacing:3.5px;text-transform:uppercase;opacity:.88;margin:0 0 20px}
-.message{margin:0 auto 22px;max-width:390px;font-family:Georgia,"Times New Roman",serif;font-size:20px;line-height:1.35;font-style:italic;text-shadow:0 1px 8px rgba(0,0,0,.65)}
 
-.buttons{
-  display:grid;
-  gap:9px;
-  width:76%;
+html,body{
+  margin:0;
+  min-height:100%;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  color:#fff;
+  background:#111;
+}
+
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+}
+
+.page{
+  width:100%;
+  max-width:560px;
+  min-height:100vh;
+  padding:24px 16px 20px;
+  position:relative;
+  display:flex;
+  justify-content:center;
+  background:
+    linear-gradient(to bottom,rgba(0,0,0,.14),rgba(0,0,0,.42)),
+    url("background.jpg") 43% center / cover no-repeat;
+}
+
+.content{
+  width:100%;
+  text-align:center;
+}
+
+/* Logo centered like in your reference image */
+.logo{
+  width:min(145px,38vw);
+  height:auto;
+  display:block;
+  margin:0 auto 8px;
+}
+
+.subtitle{
+  margin-top:2px;
+  font-size:10px;
+  letter-spacing:3.4px;
+  text-transform:uppercase;
+  color:#d7bd84;
+  opacity:.95;
+}
+
+.divider{
+  width:28px;
+  height:1px;
+  background:#d7bd84;
+  margin:14px auto 17px;
+  opacity:.9;
+}
+
+/* Text aligned over the button column */
+.message-wrap{
+  width:62%;
   margin-left:auto;
+  margin-right:4%;
+}
+
+.message{
+  margin:0;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:19px;
+  line-height:1.28;
+  font-style:italic;
+  text-shadow:0 2px 8px rgba(0,0,0,.72);
+}
+
+.thanks{
+  display:block;
+  margin-top:3px;
+  color:#d7bd84;
+}
+
+.heart-top{
+  margin:12px 0 15px;
+  color:#e6c77d;
+  font-size:18px;
+  text-shadow:0 1px 6px rgba(0,0,0,.5);
+}
+
+/* Narrow right-side buttons so the musician remains visible */
+.buttons{
+  width:62%;
+  margin-left:auto;
+  margin-right:4%;
+  display:grid;
+  gap:8px;
 }
 
 .button{
-  min-height:50px;
+  min-height:42px;
   display:grid;
-  grid-template-columns:26px 1fr;
+  grid-template-columns:27px 1fr;
   align-items:center;
-  column-gap:10px;
-  padding:10px 14px;
-  border:1px solid rgba(255,255,255,.32);
-  border-radius:14px;
+  column-gap:8px;
+  padding:7px 10px;
+  border:1px solid rgba(255,255,255,.45);
+  border-radius:10px;
   color:#fff;
   text-decoration:none;
-  background:rgba(8,8,8,.18);
-  backdrop-filter:blur(6px);
-  -webkit-backdrop-filter:blur(6px);
-  font-size:15px;
+  background:rgba(10,10,10,.18);
+  backdrop-filter:blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+  font-size:12px;
+  line-height:1.15;
   font-weight:500;
   text-align:left;
-  text-shadow:0 1px 6px rgba(0,0,0,.55);
+  text-shadow:0 1px 5px rgba(0,0,0,.68);
 }
 
-.button:hover{background:rgba(255,255,255,.08)}
+.button:hover{
+  background:rgba(255,255,255,.07);
+}
+
+.button.support{
+  border-color:#cba64f;
+  background:rgba(52,40,12,.22);
+}
+
+.button small{
+  display:block;
+  margin-top:2px;
+  font-size:9px;
+  font-weight:400;
+  color:#d7bd84;
+}
+
 .icon{
-  width:20px;
-  font-size:15px;
-  line-height:1;
-  text-align:center;
-  opacity:.95;
+  width:24px;
+  height:24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
-.support{
-  border-color:rgba(235,199,126,.72);
-  background:rgba(30,24,10,.18);
+
+.icon svg{
+  width:22px;
+  height:22px;
+  display:block;
 }
-.support small{font-size:10px;opacity:.72;margin-left:3px;font-weight:400}
 
 .phone{
   display:block;
   width:max-content;
   margin:18px auto 0;
-  color:rgba(255,255,255,.82);
+  color:rgba(255,255,255,.76);
   text-decoration:none;
-  font-size:12px;
-  letter-spacing:1.2px;
-  text-shadow:0 1px 6px rgba(0,0,0,.7)
+  font-size:10px;
+  letter-spacing:1px;
+  text-shadow:0 1px 5px rgba(0,0,0,.75);
 }
-.footer{margin-top:11px;font-size:10px;letter-spacing:2px;opacity:.55;text-shadow:0 1px 6px rgba(0,0,0,.7)}
+
+.footer{
+  margin-top:10px;
+  font-size:9px;
+  letter-spacing:2px;
+  color:#d7bd84;
+  opacity:.82;
+  text-shadow:0 1px 5px rgba(0,0,0,.75);
+}
 
 @media(max-width:420px){
-  .buttons{width:78%}
-  .button{font-size:14px;min-height:48px;padding:9px 12px;grid-template-columns:22px 1fr;column-gap:8px}
-  .icon{font-size:14px}
-  .message{font-size:19px}
+  .page{padding:18px 12px 16px;background-position:43% center}
+  .logo{width:128px}
+  .message-wrap,.buttons{width:62%;margin-right:3%}
+  .message{font-size:17px}
+  .button{min-height:40px;font-size:11px;grid-template-columns:25px 1fr;padding:6px 9px}
+  .icon svg{width:21px;height:21px}
 }
 
-@media(max-height:700px){
-  .page{padding-top:18px;padding-bottom:16px}
-  .subtitle{margin-bottom:14px}
-  .message{margin-bottom:16px}
-  .buttons{gap:7px}
-  .button{min-height:45px}
-  .phone{margin-top:13px}
+@media(max-height:680px){
+  .logo{width:118px}
+  .divider{margin:10px auto 12px}
+  .heart-top{margin:9px 0 10px}
+  .buttons{gap:6px}
+  .button{min-height:37px}
+  .phone{margin-top:11px}
+  .footer{margin-top:7px}
 }
 </style>
 </head>
+
 <body>
 <main class="page">
   <div class="content">
+
     <img class="logo" src="logo.png" alt="Marco Vendramin">
     <div class="subtitle">Acoustic Live Music</div>
+    <div class="divider"></div>
 
-    <p class="message">Enjoyed the music?<br>Thank you for being here.</p>
+    <div class="message-wrap">
+      <p class="message">
+        Enjoyed the music?
+        <span class="thanks">Thank you for being here.</span>
+      </p>
+      <div class="heart-top">♥</div>
+    </div>
 
-    <nav class="buttons">
+    <nav class="buttons" aria-label="Marco Vendramin links">
+
       <a class="button" href="INSTAGRAM_LINK_PLACEHOLDER" target="_blank" rel="noopener">
-        <span class="icon">◎</span><span>Follow me on Instagram</span>
+        <span class="icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <defs>
+              <linearGradient id="ig" x1="0" y1="1" x2="1" y2="0">
+                <stop offset="0%" stop-color="#ffd600"/>
+                <stop offset="35%" stop-color="#ff7a00"/>
+                <stop offset="68%" stop-color="#ff0169"/>
+                <stop offset="100%" stop-color="#d300c5"/>
+              </linearGradient>
+            </defs>
+            <rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="url(#ig)" stroke-width="2.2"/>
+            <circle cx="12" cy="12" r="4" fill="none" stroke="url(#ig)" stroke-width="2.2"/>
+            <circle cx="17.4" cy="6.7" r="1.15" fill="url(#ig)"/>
+          </svg>
+        </span>
+        <span>Follow me on Instagram</span>
       </a>
 
       <a class="button" href="FACEBOOK_LINK_PLACEHOLDER" target="_blank" rel="noopener">
-        <span class="icon">f</span><span>Follow me on Facebook</span>
+        <span class="icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" fill="#1877F2"/>
+            <path d="M13.5 8.2h2V5.1c-.35-.05-1.55-.15-2.98-.15-2.95 0-4.97 1.8-4.97 5.1v2.85H4.2v3.47h3.35V24h4.1v-7.63h3.1l.49-3.47h-3.59V10.4c0-1 .27-2.2 1.85-2.2z" fill="#fff" transform="scale(.73) translate(4.4 1.2)"/>
+          </svg>
+        </span>
+        <span>Follow me on Facebook</span>
       </a>
 
       <a class="button support" href="PAYPAL_LINK_PLACEHOLDER" target="_blank" rel="noopener">
-        <span class="icon">♥</span><span>Support my music <small>via PayPal</small></span>
+        <span class="icon" style="color:#e6c77d;font-size:23px">♥</span>
+        <span>Support my music<small>via PayPal</small></span>
       </a>
 
       <a class="button" href="https://wa.me/393491314163" target="_blank" rel="noopener">
-        <span class="icon">◌</span><span>Chat with me on WhatsApp</span>
+        <span class="icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" fill="#25D366"/>
+            <path d="M7.1 17.1l.7-2.55a5.55 5.55 0 1 1 2.1 2.06l-2.8.49zm2.93-1.55.17.1a4.4 4.4 0 1 0-1.56-1.53l.11.18-.42 1.52 1.7-.28zm6.47-2.36c-.09-.04-.55-.27-.64-.3-.09-.04-.16-.04-.22.05-.07.1-.25.3-.31.37-.06.07-.12.08-.22.03-.1-.05-.43-.16-.82-.51-.3-.27-.51-.6-.57-.7-.06-.1-.01-.16.04-.21.05-.05.1-.12.15-.18.05-.06.07-.1.1-.17.03-.07.02-.13-.01-.18-.03-.05-.22-.54-.31-.74-.08-.2-.16-.17-.22-.17h-.19c-.07 0-.18.03-.27.13-.09.1-.36.35-.36.86 0 .5.37.99.42 1.06.05.07.73 1.12 1.77 1.57.25.11.44.17.59.22.25.08.47.07.65.04.2-.03.64-.26.73-.51.09-.25.09-.46.06-.51-.03-.04-.1-.07-.2-.12z" fill="#fff"/>
+          </svg>
+        </span>
+        <span>Chat with me on WhatsApp</span>
       </a>
 
       <a class="button" href="mailto:EMAIL_LINK_PLACEHOLDER">
-        <span class="icon">✉</span><span>Send me an Email</span>
+        <span class="icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="2.5" y="5" width="19" height="14" rx="2" fill="none" stroke="#fff" stroke-width="1.8"/>
+            <path d="M3.5 7l8.5 6.3L20.5 7" fill="none" stroke="#fff" stroke-width="1.8"/>
+          </svg>
+        </span>
+        <span>Send me an Email</span>
       </a>
+
     </nav>
 
     <a class="phone" href="tel:+393491314163">+39 349 1314163</a>
