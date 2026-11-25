@@ -1,40 +1,76 @@
 (()=>{'use strict';
-  const CONFIG=window.MARCO_CONFIG||{};
-  const API=String(CONFIG.apiBase||'').replace(/\/+$/,'');
-  const i18n={
-    en:{heading:'Song Request',intro:'Find a favorite from my repertoire and send a song request.',searchLabel:'Find your song',placeholder:'Search by song or artist…',loading:'Loading songs…',songs:'songs',wish:'Request',unavailable:'Not available',live:'Requests open',closed:'Requests paused',setup:'Requests not yet active',offline:'Service unavailable',none:'No matching songs found.',disclaimer:'Requests depend on the live set and cannot always be played.',confirm:'Request this song?',cancel:'Cancel',send:'Send request',sending:'Sending…',success:'Thank you! Your song request has been received.',error:'Could not send your request. Please try again.',limited:'Please wait a little before your next request.',backend:'Song requests will be available here soon. Feel free to browse the repertoire.',stale:'The live list could not be updated. Showing the last saved repertoire.',tipAction:'Tip welcome'},
-
-  };
+  // Public visitor page. Backend integration remains optional until configured.
+  const config=window.MARCO_CONFIG||{};
+  const api=String(config.apiBase||'').replace(/\/+$/,'');
   const $=id=>document.getElementById(id);
-  let lang='en',songs=[],canRequest=false,selected=null,sending=false;
-  function t(k){return i18n[lang][k]||k}
-  function normal(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase().replace(/[’‘]/g,"'")}
-  function setNotice(message,kind=''){const e=$('notice');e.textContent=message;e.className='notice'+(kind?' '+kind:'');e.hidden=!message}
-  function setStatus(code){$('status').textContent=t(code);$('status-dot').classList.toggle('live',code==='live')}
-  function setEnglish(){document.documentElement.lang='en';
-    $('heading').textContent=t('heading');$('intro').textContent=t('intro');$('search-label').textContent=t('searchLabel');$('search').placeholder=t('placeholder');$('disclaimer').textContent=t('disclaimer');$('modal-heading').textContent=t('confirm');$('cancel').textContent=t('cancel');$('send').textContent=t('send');$('tip-action').textContent=t('tipAction');
-    setStatus(!API?'setup':canRequest?'live':statusCode);render();if(!API)setNotice(t('backend'));
+  const text={
+    live:'Requests open',closed:'Requests paused',setup:'Requests not yet active',offline:'Service unavailable',
+    loading:'Loading songs…',none:'No matching songs found.',browse:'Song requests will be available here soon. Feel free to browse the repertoire.',
+    stale:'The live list is temporarily unavailable. Showing the saved repertoire.',
+    failed:'The song list could not be loaded. Please reload the page.',
+    limited:'Please wait a little before your next request.',success:'Thank you! Your song request has been received.',
+    sendError:'Could not send your request. Please try again.'
+  };
+  let songs=[],canRequest=false,selected=null,sending=false,statusCode='setup';
+  document.documentElement.lang='en';
+  function normalize(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('en').replace(/[’‘]/g,"'")}
+  function notice(message,kind=''){
+    const el=$('notice');if(!el)return;el.textContent=message;el.className='notice'+(kind?' '+kind:'');el.hidden=!message;
   }
-  let statusCode='closed';
-  function render(){const q=normal($('search').value.trim());const visible=songs.filter(s=>s.available!==false&&(!q||normal(s.title+' '+s.artist).includes(q))).sort((a,b)=>a.title.localeCompare(b.title,lang,{sensitivity:'base',numeric:true}));
-    $('count').textContent=visible.length+' '+t('songs');const list=$('songs');list.replaceChildren();if(!visible.length){const li=document.createElement('li');li.className='no-results';li.textContent=t('none');list.append(li);return}
-    for(const s of visible){const li=document.createElement('li');li.className='song';const details=document.createElement('div');const title=document.createElement('div');title.className='song-title';title.textContent=s.title;const artist=document.createElement('div');artist.className='song-artist';artist.textContent=s.artist;details.append(title,artist);const b=document.createElement('button');b.type='button';b.className='wish';b.textContent=t('wish');b.disabled=!canRequest;b.setAttribute('aria-label',t('wish')+': '+s.title+' – '+s.artist);b.addEventListener('click',()=>openModal(s));li.append(details,b);list.append(li)}
+  function status(code){statusCode=code;$('status').textContent=text[code]||text.offline;$('status-dot').classList.toggle('live',code==='live')}
+  function render(){
+    const query=normalize($('search').value.trim());
+    const shown=songs.filter(s=>s.available!==false&&(!query||normalize(s.title+' '+s.artist).includes(query)))
+      .sort((a,b)=>a.title.localeCompare(b.title,'en',{sensitivity:'base',numeric:true}));
+    $('count').textContent=shown.length+' songs';const list=$('songs');list.replaceChildren();
+    if(!shown.length){const empty=document.createElement('li');empty.className='no-results';empty.textContent=songs.length?text.none:text.loading;list.appendChild(empty);return}
+    for(const s of shown){
+      const li=document.createElement('li');li.className='song';
+      const details=document.createElement('div');const title=document.createElement('div');title.className='song-title';title.textContent=s.title;
+      const artist=document.createElement('div');artist.className='song-artist';artist.textContent=s.artist;details.append(title,artist);
+      const button=document.createElement('button');button.type='button';button.className='wish';button.textContent='Request';
+      button.disabled=!canRequest;button.setAttribute('aria-label','Request: '+s.title+' – '+s.artist);
+      button.addEventListener('click',()=>openModal(s));li.append(details,button);list.appendChild(li);
+    }
   }
-  function openModal(song){if(!canRequest)return;selected=song;$('modal-song').textContent=song.title;$('modal-artist').textContent=song.artist;$('modal').hidden=false;$('send').focus()}
+  function openModal(s){if(!canRequest)return;selected=s;$('modal-song').textContent=s.title;$('modal-artist').textContent=s.artist;$('modal').hidden=false;$('send').focus()}
   function closeModal(){if(sending)return;$('modal').hidden=true;selected=null}
-  async function fetchJSON(path){const res=await fetch(path,{cache:'no-store'});if(!res.ok)throw Error('HTTP '+res.status);return res.json()}
-  async function load(){let fallback=false;
-    try{if(API){const v=await fetchJSON(API+'/songs');songs=Array.isArray(v)?v:(v.songs||[]);const state=await fetchJSON(API+'/status');canRequest=Boolean(state.requestsEnabled);statusCode=canRequest?'live':'closed';}
-      else{songs=await fetchJSON('./songs.json');canRequest=false;statusCode='setup'}
-    }catch(err){canRequest=false;statusCode='offline';try{songs=await fetchJSON('./songs.json');fallback=true}catch(_){songs=[]}setNotice(t('stale'),'error')}
-    if(!fallback&&!API)setNotice(t('backend'));else if(!fallback)setNotice('');setStatus(statusCode);render();
+  async function getJson(url){const response=await fetch(url,{cache:'no-store'});if(!response.ok)throw Error('HTTP '+response.status);return response.json()}
+  async function load(){
+    let liveFailure=false;
+    if(api){
+      try{
+        const values=await getJson(api+'/songs');songs=Array.isArray(values)?values:(values.songs||[]);
+        const current=await getJson(api+'/status');canRequest=Boolean(current.requestsEnabled);status(canRequest?'live':'closed');
+      }catch(error){liveFailure=true;canRequest=false;status('offline')}
+    }else{canRequest=false;status('setup')}
+    if(!api||liveFailure){
+      try{songs=await getJson('./songs.json?v=20261125-fix3');}
+      catch(error){songs=[];notice(text.failed,'error');$('count').textContent='Song list unavailable';return}
+    }
+    if(liveFailure)notice(text.stale,'error');
+    else if(!api)notice(text.browse);
+    else notice('');
+    render();
   }
-  async function sendRequest(){if(sending||!selected||!API)return;const age=Date.now()-Number(localStorage.getItem('marco_last_wish')||0);if(age<90000){setNotice(t('limited'),'error');closeModal();return}
-    sending=true;$('send').disabled=true;$('send').textContent=t('sending');
-    try{const res=await fetch(API+'/requests',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({songId:selected.id})});const payload=await res.json().catch(()=>({}));if(res.status===429)throw Error('RATE');if(!res.ok||!payload.ok)throw Error('SEND');localStorage.setItem('marco_last_wish',String(Date.now()));setNotice(t('success'),'success');}
-    catch(e){setNotice(t(e.message==='RATE'?'limited':'error'),'error')}
-    finally{sending=false;$('send').disabled=false;$('send').textContent=t('send');closeModal()}
+  function getLastRequest(){try{return Number(localStorage.getItem('marco_last_wish')||0)}catch(_){return 0}}
+  function saveLastRequest(){try{localStorage.setItem('marco_last_wish',String(Date.now()))}catch(_){}}
+  async function sendRequest(){
+    if(!selected||!api||sending)return;
+    if(Date.now()-getLastRequest()<90000){notice(text.limited,'error');closeModal();return}
+    sending=true;$('send').disabled=true;$('send').textContent='Sending…';
+    try{
+      const response=await fetch(api+'/requests',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({songId:selected.id})});
+      const result=await response.json().catch(()=>({}));
+      if(response.status===429)throw Error('rate');if(!response.ok||!result.ok)throw Error('failed');
+      saveLastRequest();notice(text.success,'success');
+    }catch(error){notice(error.message==='rate'?text.limited:text.sendError,'error')}
+    finally{sending=false;$('send').disabled=false;$('send').textContent='Send request';closeModal()}
   }
-  $('search').addEventListener('input',render);$('cancel').addEventListener('click',closeModal);$('send').addEventListener('click',sendRequest);$('modal').addEventListener('click',e=>{if(e.target===$('modal'))closeModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
-  setEnglish();load();
+  $('search').addEventListener('input',render);
+  $('cancel').addEventListener('click',closeModal);
+  $('send').addEventListener('click',sendRequest);
+  $('modal').addEventListener('click',e=>{if(e.target===$('modal'))closeModal()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+  load();
 })();
