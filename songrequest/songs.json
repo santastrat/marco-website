@@ -1,0 +1,758 @@
+[
+  {
+    "id": 1,
+    "title": "’74–’75",
+    "artist": "The Connells",
+    "available": true
+  },
+  {
+    "id": 2,
+    "title": "80 Millionen",
+    "artist": "Max Giesinger",
+    "available": true
+  },
+  {
+    "id": 3,
+    "title": "9 Crimes",
+    "artist": "Damien Rice",
+    "available": true
+  },
+  {
+    "id": 4,
+    "title": "99 Luftballons",
+    "artist": "Nena",
+    "available": true
+  },
+  {
+    "id": 5,
+    "title": "Aber bitte mit Sahne",
+    "artist": "Udo Jürgens",
+    "available": true
+  },
+  {
+    "id": 6,
+    "title": "Achy Breaky Heart",
+    "artist": "Billy Ray Cyrus",
+    "available": true
+  },
+  {
+    "id": 7,
+    "title": "Albachiara",
+    "artist": "Vasco Rossi",
+    "available": true
+  },
+  {
+    "id": 8,
+    "title": "An Tagen wiediesen",
+    "artist": "Die Toten Hosen",
+    "available": true
+  },
+  {
+    "id": 9,
+    "title": "Angels",
+    "artist": "Robbie Williams",
+    "available": true
+  },
+  {
+    "id": 10,
+    "title": "Applaus, Applaus",
+    "artist": "Sportfreunde Stiller",
+    "available": true
+  },
+  {
+    "id": 11,
+    "title": "Atemlos",
+    "artist": "Helene Fischer",
+    "available": true
+  },
+  {
+    "id": 12,
+    "title": "Bad Moon Rising",
+    "artist": "Creedence Clearwater Revival",
+    "available": true
+  },
+  {
+    "id": 13,
+    "title": "Gö, du bleibst heut Nacht bei mir",
+    "artist": "STS",
+    "available": true
+  },
+  {
+    "id": 14,
+    "title": "Bello e impossibile",
+    "artist": "Gianna Nannini",
+    "available": true
+  },
+  {
+    "id": 15,
+    "title": "Boulevard of Broken Dreams",
+    "artist": "Green Day",
+    "available": true
+  },
+  {
+    "id": 16,
+    "title": "Breakfast at Tiffany’s",
+    "artist": "Deep Blue Something",
+    "available": true
+  },
+  {
+    "id": 17,
+    "title": "Certe Notti",
+    "artist": "Ligabue",
+    "available": true
+  },
+  {
+    "id": 18,
+    "title": "Che sarà",
+    "artist": "Ricchi e Poveri / José Feliciano",
+    "available": true
+  },
+  {
+    "id": 19,
+    "title": "Come Mai",
+    "artist": "883",
+    "available": true
+  },
+  {
+    "id": 20,
+    "title": "Country Roads",
+    "artist": "John Denver",
+    "available": true
+  },
+  {
+    "id": 21,
+    "title": "Don’t Look Back in Anger",
+    "artist": "Oasis",
+    "available": true
+  },
+  {
+    "id": 22,
+    "title": "Every Rose Has Its Thorn",
+    "artist": "Poison",
+    "available": true
+  },
+  {
+    "id": 23,
+    "title": "Eye of the Tiger",
+    "artist": "Survivor",
+    "available": true
+  },
+  {
+    "id": 24,
+    "title": "Fall from Grace",
+    "artist": "Amanda Marshall",
+    "available": true
+  },
+  {
+    "id": 25,
+    "title": "Father and Son",
+    "artist": "Cat Stevens / Yusuf",
+    "available": true
+  },
+  {
+    "id": 26,
+    "title": "Free Fallin’",
+    "artist": "Tom Petty",
+    "available": true
+  },
+  {
+    "id": 27,
+    "title": "Friday I’m in Love",
+    "artist": "The Cure",
+    "available": true
+  },
+  {
+    "id": 28,
+    "title": "Für immer ab jetzt",
+    "artist": "Johannes Oerding",
+    "available": true
+  },
+  {
+    "id": 29,
+    "title": "Fürstenfeld",
+    "artist": "STS",
+    "available": true
+  },
+  {
+    "id": 30,
+    "title": "Generale",
+    "artist": "Francesco De Gregori",
+    "available": true
+  },
+  {
+    "id": 31,
+    "title": "Gente di mare",
+    "artist": "Umberto Tozzi & Raf",
+    "available": true
+  },
+  {
+    "id": 32,
+    "title": "Gianna",
+    "artist": "Rino Gaetano",
+    "available": true
+  },
+  {
+    "id": 33,
+    "title": "Gli anni",
+    "artist": "883",
+    "available": true
+  },
+  {
+    "id": 34,
+    "title": "Green Eyes",
+    "artist": "Coldplay",
+    "available": true
+  },
+  {
+    "id": 35,
+    "title": "Großvater",
+    "artist": "STS",
+    "available": true
+  },
+  {
+    "id": 36,
+    "title": "Hanno ucciso l’Uomo Ragno",
+    "artist": "883",
+    "available": true
+  },
+  {
+    "id": 37,
+    "title": "Have You Ever Seen the Rain",
+    "artist": "Creedence Clearwater Revival",
+    "available": true
+  },
+  {
+    "id": 38,
+    "title": "Heart of Gold",
+    "artist": "Neil Young",
+    "available": true
+  },
+  {
+    "id": 39,
+    "title": "Hulapalu",
+    "artist": "Andreas Gabalier",
+    "available": true
+  },
+  {
+    "id": 40,
+    "title": "Hurt",
+    "artist": "Johnny Cash",
+    "available": true
+  },
+  {
+    "id": 41,
+    "title": "I Am from Austria",
+    "artist": "Rainhard Fendrich",
+    "available": true
+  },
+  {
+    "id": 42,
+    "title": "I Can See Clearly Now",
+    "artist": "Johnny Nash",
+    "available": true
+  },
+  {
+    "id": 43,
+    "title": "I Still Haven’t Found What I’m Looking For",
+    "artist": "U2",
+    "available": true
+  },
+  {
+    "id": 44,
+    "title": "Imagine",
+    "artist": "John Lennon",
+    "available": true
+  },
+  {
+    "id": 45,
+    "title": "Irgendwann bleib i dann dort",
+    "artist": "STS",
+    "available": true
+  },
+  {
+    "id": 46,
+    "title": "Iris",
+    "artist": "Goo Goo Dolls",
+    "available": true
+  },
+  {
+    "id": 47,
+    "title": "Ironic",
+    "artist": "Alanis Morissette",
+    "available": true
+  },
+  {
+    "id": 48,
+    "title": "L’isola che non c’è",
+    "artist": "Edoardo Bennato",
+    "available": true
+  },
+  {
+    "id": 49,
+    "title": "It’s a Good Life",
+    "artist": "Rea Garvey",
+    "available": true
+  },
+  {
+    "id": 50,
+    "title": "It’s My Life",
+    "artist": "Bon Jovi",
+    "available": true
+  },
+  {
+    "id": 51,
+    "title": "Kalt und Kälter",
+    "artist": "STS",
+    "available": true
+  },
+  {
+    "id": 52,
+    "title": "Kein Alkohol ist auch keine Lösung",
+    "artist": "Die Toten Hosen",
+    "available": true
+  },
+  {
+    "id": 53,
+    "title": "Knockin’ on Heaven’s Door",
+    "artist": "Bob Dylan",
+    "available": true
+  },
+  {
+    "id": 54,
+    "title": "Kompliment",
+    "artist": "Sportfreunde Stiller",
+    "available": true
+  },
+  {
+    "id": 55,
+    "title": "L’anno che verrà",
+    "artist": "Lucio Dalla",
+    "available": true
+  },
+  {
+    "id": 56,
+    "title": "Lascia che io sia",
+    "artist": "Nek",
+    "available": true
+  },
+  {
+    "id": 57,
+    "title": "Lass uns schmutzig Liebe machen",
+    "artist": "Die Schröders",
+    "available": true
+  },
+  {
+    "id": 58,
+    "title": "Layla",
+    "artist": "Eric Clapton",
+    "available": true
+  },
+  {
+    "id": 59,
+    "title": "Learning to Fly",
+    "artist": "Tom Petty and the Heartbreakers",
+    "available": true
+  },
+  {
+    "id": 60,
+    "title": "Lemon Tree",
+    "artist": "Fool’s Garden",
+    "available": true
+  },
+  {
+    "id": 61,
+    "title": "Let Her Go",
+    "artist": "Passenger",
+    "available": true
+  },
+  {
+    "id": 62,
+    "title": "Let It Be",
+    "artist": "The Beatles",
+    "available": true
+  },
+  {
+    "id": 63,
+    "title": "Lola",
+    "artist": "TheKinks",
+    "available": true
+  },
+  {
+    "id": 64,
+    "title": "Männer sind Schweine",
+    "artist": "Die Ärzte",
+    "available": true
+  },
+  {
+    "id": 65,
+    "title": "Mein Anker",
+    "artist": "Julian le Play",
+    "available": true
+  },
+  {
+    "id": 66,
+    "title": "Vo Mello bis ge Schoppornou",
+    "artist": "(HMBC)",
+    "available": true
+  },
+  {
+    "id": 67,
+    "title": "Nobody’s Home",
+    "artist": "Avril Lavigne",
+    "available": true
+  },
+  {
+    "id": 68,
+    "title": "Nothing Else Matters",
+    "artist": "Metallica",
+    "available": true
+  },
+  {
+    "id": 69,
+    "title": "La canzone del sole",
+    "artist": "Lucio Battisti",
+    "available": true
+  },
+  {
+    "id": 70,
+    "title": "One of Us",
+    "artist": "Joan Osborne",
+    "available": true
+  },
+  {
+    "id": 71,
+    "title": "Otherside",
+    "artist": "Red Hot ChiliPeppers",
+    "available": true
+  },
+  {
+    "id": 72,
+    "title": "Patience",
+    "artist": "Guns N’ Roses",
+    "available": true
+  },
+  {
+    "id": 73,
+    "title": "Photograph",
+    "artist": "Ed Sheeran",
+    "available": true
+  },
+  {
+    "id": 74,
+    "title": "Piccola stella",
+    "artist": "Ultimo",
+    "available": true
+  },
+  {
+    "id": 75,
+    "title": "Piccola stella senza cielo",
+    "artist": "Ligabue",
+    "available": true
+  },
+  {
+    "id": 76,
+    "title": "Proud Mary",
+    "artist": "Creedence Clearwater Revival",
+    "available": true
+  },
+  {
+    "id": 77,
+    "title": "Purple Rain",
+    "artist": "Prince",
+    "available": true
+  },
+  {
+    "id": 78,
+    "title": "Renegades",
+    "artist": "Ambassadors",
+    "available": true
+  },
+  {
+    "id": 79,
+    "title": "Save Tonight",
+    "artist": "Eagle-Eye Cherry",
+    "available": true
+  },
+  {
+    "id": 80,
+    "title": "Sara",
+    "artist": "Antonello Venditti",
+    "available": true
+  },
+  {
+    "id": 81,
+    "title": "Sarà perché ti amo",
+    "artist": "Ricchi e Poveri",
+    "available": true
+  },
+  {
+    "id": 82,
+    "title": "Shallow",
+    "artist": "Lady Gaga & Bradley Cooper",
+    "available": true
+  },
+  {
+    "id": 83,
+    "title": "Simple Man",
+    "artist": "Lynyrd Skynyrd",
+    "available": true
+  },
+  {
+    "id": 84,
+    "title": "(Sittin’ On) The Dock of the Bay",
+    "artist": "Otis Redding",
+    "available": true
+  },
+  {
+    "id": 85,
+    "title": "Son of a Preacher Man",
+    "artist": "Dusty Springfield",
+    "available": true
+  },
+  {
+    "id": 86,
+    "title": "Stand byMe",
+    "artist": "Ben E. King",
+    "available": true
+  },
+  {
+    "id": 87,
+    "title": "Supergirl",
+    "artist": "Reamonn",
+    "available": true
+  },
+  {
+    "id": 88,
+    "title": "Taylor",
+    "artist": "Jack Johnson",
+    "available": true
+  },
+  {
+    "id": 89,
+    "title": "Tears in Heaven",
+    "artist": "Eric Clapton",
+    "available": true
+  },
+  {
+    "id": 90,
+    "title": "Thank You for Being a Friend",
+    "artist": "Andrew Gold",
+    "available": true
+  },
+  {
+    "id": 91,
+    "title": "The Best",
+    "artist": "Tina Turner",
+    "available": true
+  },
+  {
+    "id": 92,
+    "title": "The Joker",
+    "artist": "Steve Miller Band",
+    "available": true
+  },
+  {
+    "id": 93,
+    "title": "The Scientist",
+    "artist": "Coldplay",
+    "available": true
+  },
+  {
+    "id": 94,
+    "title": "Un’avventura",
+    "artist": "Lucio Battisti",
+    "available": true
+  },
+  {
+    "id": 95,
+    "title": "Und dann warten",
+    "artist": "Jupiter Jones",
+    "available": true
+  },
+  {
+    "id": 96,
+    "title": "Unica",
+    "artist": "Antonello Venditti",
+    "available": true
+  },
+  {
+    "id": 97,
+    "title": "Use Somebody",
+    "artist": "Kings of Leon",
+    "available": true
+  },
+  {
+    "id": 98,
+    "title": "Io vagabondo",
+    "artist": "Nomadi",
+    "available": true
+  },
+  {
+    "id": 99,
+    "title": "50 Special",
+    "artist": "Lùnapop",
+    "available": true
+  },
+  {
+    "id": 100,
+    "title": "Vita spericolata",
+    "artist": "Vasco Rossi",
+    "available": true
+  },
+  {
+    "id": 101,
+    "title": "Viva La Vida",
+    "artist": "Coldplay",
+    "available": true
+  },
+  {
+    "id": 102,
+    "title": "Volevo essere un duro",
+    "artist": "Lucio Corsi",
+    "available": true
+  },
+  {
+    "id": 103,
+    "title": "Wait in Line",
+    "artist": "James Bay",
+    "available": true
+  },
+  {
+    "id": 104,
+    "title": "Wake Me Up",
+    "artist": "Avicii",
+    "available": true
+  },
+  {
+    "id": 105,
+    "title": "Walking onSunshine",
+    "artist": "Katrina and the Waves",
+    "available": true
+  },
+  {
+    "id": 106,
+    "title": "What a Feeling",
+    "artist": "Irene Cara",
+    "available": true
+  },
+  {
+    "id": 107,
+    "title": "What’s Up?",
+    "artist": "4 Non Blondes",
+    "available": true
+  },
+  {
+    "id": 108,
+    "title": "Wheels",
+    "artist": "Foo Fighters",
+    "available": true
+  },
+  {
+    "id": 109,
+    "title": "Wake Me Up When September Ends",
+    "artist": "Green Day",
+    "available": true
+  },
+  {
+    "id": 110,
+    "title": "When the Stars Go Blue",
+    "artist": "Ryan Adams",
+    "available": true
+  },
+  {
+    "id": 111,
+    "title": "Wherever You Will Go",
+    "artist": "The Calling",
+    "available": true
+  },
+  {
+    "id": 112,
+    "title": "Who’ll Stop the Rain",
+    "artist": "CreedenceClearwater Revival",
+    "available": true
+  },
+  {
+    "id": 113,
+    "title": "Wicked Game",
+    "artist": "Chris Isaak",
+    "available": true
+  },
+  {
+    "id": 114,
+    "title": "Wie soll ein Mensch",
+    "artist": "Philipp Poisel",
+    "available": true
+  },
+  {
+    "id": 115,
+    "title": "Wild World",
+    "artist": "Cat Stevens / Yusuf",
+    "available": true
+  },
+  {
+    "id": 116,
+    "title": "Wir haben noch das ganze Leben",
+    "artist": "Julian le Play",
+    "available": true
+  },
+  {
+    "id": 117,
+    "title": "Wish You Were Here",
+    "artist": "Pink Floyd",
+    "available": true
+  },
+  {
+    "id": 118,
+    "title": "With or Without You",
+    "artist": "U2",
+    "available": true
+  },
+  {
+    "id": 119,
+    "title": "Wonderful Tonight",
+    "artist": "Eric Clapton",
+    "available": true
+  },
+  {
+    "id": 120,
+    "title": "Wonderwall",
+    "artist": "Oasis",
+    "available": true
+  },
+  {
+    "id": 121,
+    "title": "Wunder",
+    "artist": "Florian Künstler",
+    "available": true
+  },
+  {
+    "id": 122,
+    "title": "Yellow",
+    "artist": "Coldplay",
+    "available": true
+  },
+  {
+    "id": 123,
+    "title": "You Don’t Know",
+    "artist": "Milow",
+    "available": true
+  },
+  {
+    "id": 124,
+    "title": "Zeitlauf",
+    "artist": "Mein eigener Song",
+    "available": true
+  },
+  {
+    "id": 125,
+    "title": "Zombie",
+    "artist": "The Cranberries",
+    "available": true
+  },
+  {
+    "id": 126,
+    "title": "Zu spät",
+    "artist": "Die Ärzte",
+    "available": true
+  }
+]

@@ -1,0 +1,42 @@
+(()=>{'use strict';
+  const CONFIG=window.MARCO_CONFIG||{};
+  const API=String(CONFIG.apiBase||'').replace(/\/+$/,'');
+  const i18n={
+    en:{heading:'Your Song Request',intro:'Find a favorite from my repertoire and send a song request.',searchLabel:'Find your song',placeholder:'Search by song or artist…',loading:'Loading songs…',songs:'songs',wish:'Request',unavailable:'Not available',live:'Requests open',closed:'Requests paused',setup:'Requests not yet active',offline:'Service unavailable',none:'No matching songs found.',disclaimer:'Requests depend on the live set and cannot always be played.',confirm:'Request this song?',cancel:'Cancel',send:'Send request',sending:'Sending…',success:'Thank you! Your song request has been received.',error:'Could not send your request. Please try again.',limited:'Please wait a little before your next request.',backend:'Song requests will be available here soon. Feel free to browse the repertoire.',stale:'The live list could not be updated. Showing the last saved repertoire.',tipCopy:'Enjoying the music?',tipAction:'Leave a tip via PayPal',tipNote:'Tips are voluntary and do not affect song requests.'},
+    de:{heading:'Dein Musikwunsch',intro:'Such dir einen Song aus meinem Repertoire aus und schick mir deinen Wunsch.',searchLabel:'Song suchen',placeholder:'Songtitel oder Interpret suchen…',loading:'Songliste wird geladen…',songs:'Songs',wish:'Wünschen',unavailable:'Nicht verfügbar',live:'Musikwünsche offen',closed:'Musikwünsche pausiert',setup:'Noch nicht aktiviert',offline:'Dienst nicht erreichbar',none:'Keine passenden Songs gefunden.',disclaimer:'Ich freue mich über deine Wünsche – nicht jeder Song lässt sich während des Auftritts spielen.',confirm:'Diesen Song wünschen?',cancel:'Abbrechen',send:'Wunsch senden',sending:'Wird gesendet…',success:'Danke! Dein Musikwunsch ist angekommen.',error:'Der Wunsch konnte nicht gesendet werden. Bitte erneut versuchen.',limited:'Bitte warte kurz, bevor du den nächsten Song wünschst.',backend:'Die Musikwunsch-Funktion wird gerade eingerichtet. Das Repertoire kannst du bereits durchstöbern.',stale:'Die aktuelle Liste war nicht erreichbar. Du siehst die zuletzt gespeicherte Songliste.',tipCopy:'Gefällt dir die Musik?',tipAction:'Trinkgeld über PayPal',tipNote:'Ein Trinkgeld ist freiwillig und beeinflusst die Musikwünsche nicht.'},
+    it:{heading:'Richiedi una canzone',intro:'Scegli un brano dal mio repertorio e inviami la tua richiesta.',searchLabel:'Cerca un brano',placeholder:'Cerca titolo o artista…',loading:'Caricamento brani…',songs:'brani',wish:'Richiedi',unavailable:'Non disponibile',live:'Richieste aperte',closed:'Richieste sospese',setup:'Non ancora attivo',offline:'Servizio non disponibile',none:'Nessun brano trovato.',disclaimer:'Farò il possibile per accontentarti, ma non tutte le richieste possono essere suonate.',confirm:'Vuoi richiedere questo brano?',cancel:'Annulla',send:'Invia richiesta',sending:'Invio…',success:'Grazie! La tua richiesta è stata ricevuta.',error:'Impossibile inviare la richiesta. Riprova.',limited:'Attendi un momento prima di inviare un’altra richiesta.',backend:'Le richieste saranno attivate a breve. Intanto puoi sfogliare il repertorio.',stale:'Impossibile aggiornare la lista. Stai visualizzando il repertorio salvato.',tipCopy:'Ti piace la musica?',tipAction:'Lascia una mancia via PayPal',tipNote:'Le mance sono facoltative e non danno priorità alle richieste.'}
+  };
+  const $=id=>document.getElementById(id);
+  let lang='en',songs=[],canRequest=false,selected=null,sending=false;
+  function t(k){return i18n[lang][k]||k}
+  function normal(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase().replace(/[’‘]/g,"'")}
+  function setNotice(message,kind=''){const e=$('notice');e.textContent=message;e.className='notice'+(kind?' '+kind:'');e.hidden=!message}
+  function setStatus(code){$('status').textContent=t(code);$('status-dot').classList.toggle('live',code==='live')}
+  function changeLang(value){lang=i18n[value]?value:'en';document.documentElement.lang=lang;try{localStorage.setItem('marco_language',lang)}catch(_){}
+    for(const el of document.querySelectorAll('[data-lang]'))el.setAttribute('aria-pressed',String(el.dataset.lang===lang));
+    $('heading').textContent=t('heading');$('intro').textContent=t('intro');$('search-label').textContent=t('searchLabel');$('search').placeholder=t('placeholder');$('disclaimer').textContent=t('disclaimer');$('modal-heading').textContent=t('confirm');$('cancel').textContent=t('cancel');$('send').textContent=t('send');$('tip-copy').textContent=t('tipCopy');$('tip-action').textContent=t('tipAction');$('tip-note').textContent=t('tipNote');
+    setStatus(!API?'setup':canRequest?'live':statusCode);render();if(!API)setNotice(t('backend'));
+  }
+  let statusCode='closed';
+  function render(){const q=normal($('search').value.trim());const visible=songs.filter(s=>s.available!==false&&(!q||normal(s.title+' '+s.artist).includes(q))).sort((a,b)=>a.title.localeCompare(b.title,lang,{sensitivity:'base',numeric:true}));
+    $('count').textContent=visible.length+' '+t('songs');const list=$('songs');list.replaceChildren();if(!visible.length){const li=document.createElement('li');li.className='no-results';li.textContent=t('none');list.append(li);return}
+    for(const s of visible){const li=document.createElement('li');li.className='song';const details=document.createElement('div');const title=document.createElement('div');title.className='song-title';title.textContent=s.title;const artist=document.createElement('div');artist.className='song-artist';artist.textContent=s.artist;details.append(title,artist);const b=document.createElement('button');b.type='button';b.className='wish';b.textContent=t('wish');b.disabled=!canRequest;b.setAttribute('aria-label',t('wish')+': '+s.title+' – '+s.artist);b.addEventListener('click',()=>openModal(s));li.append(details,b);list.append(li)}
+  }
+  function openModal(song){if(!canRequest)return;selected=song;$('modal-song').textContent=song.title;$('modal-artist').textContent=song.artist;$('modal').hidden=false;$('send').focus()}
+  function closeModal(){if(sending)return;$('modal').hidden=true;selected=null}
+  async function fetchJSON(path){const res=await fetch(path,{cache:'no-store'});if(!res.ok)throw Error('HTTP '+res.status);return res.json()}
+  async function load(){let fallback=false;
+    try{if(API){const v=await fetchJSON(API+'/songs');songs=Array.isArray(v)?v:(v.songs||[]);const state=await fetchJSON(API+'/status');canRequest=Boolean(state.requestsEnabled);statusCode=canRequest?'live':'closed';}
+      else{songs=await fetchJSON('./songs.json');canRequest=false;statusCode='setup'}
+    }catch(err){canRequest=false;statusCode='offline';try{songs=await fetchJSON('./songs.json');fallback=true}catch(_){songs=[]}setNotice(t('stale'),'error')}
+    if(!fallback&&!API)setNotice(t('backend'));else if(!fallback)setNotice('');setStatus(statusCode);render();
+  }
+  async function sendRequest(){if(sending||!selected||!API)return;const age=Date.now()-Number(localStorage.getItem('marco_last_wish')||0);if(age<90000){setNotice(t('limited'),'error');closeModal();return}
+    sending=true;$('send').disabled=true;$('send').textContent=t('sending');
+    try{const res=await fetch(API+'/requests',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({songId:selected.id})});const payload=await res.json().catch(()=>({}));if(res.status===429)throw Error('RATE');if(!res.ok||!payload.ok)throw Error('SEND');localStorage.setItem('marco_last_wish',String(Date.now()));setNotice(t('success'),'success');}
+    catch(e){setNotice(t(e.message==='RATE'?'limited':'error'),'error')}
+    finally{sending=false;$('send').disabled=false;$('send').textContent=t('send');closeModal()}
+  }
+  $('search').addEventListener('input',render);$('cancel').addEventListener('click',closeModal);$('send').addEventListener('click',sendRequest);$('modal').addEventListener('click',e=>{if(e.target===$('modal'))closeModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});document.querySelectorAll('[data-lang]').forEach(b=>b.addEventListener('click',()=>changeLang(b.dataset.lang)));
+  let saved;try{saved=localStorage.getItem('marco_language')}catch(_){}changeLang(saved||(/^de\b/i.test(navigator.language)?'de':/^it\b/i.test(navigator.language)?'it':'en'));load();
+})();
