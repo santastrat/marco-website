@@ -1,6 +1,7 @@
 (()=>{'use strict';
  const $=id=>document.getElementById(id);const C=window.MARCO_CONFIG||{};const API=String(C.apiBase||'').replace(/\/+$/,'');
- let pass=sessionStorage.getItem('marco_admin_password')||'',timer=null,onesignal=null,loadingPush=false,allRequests=[];
+ let pass=sessionStorage.getItem('marco_admin_password')||'',timer=null,onesignal=null,loadingPush=false,allRequests=[],refreshPromise=null;
+ const REFRESH_MS=10000;
  const notify=(v,err=false)=>{const n=$('message');n.textContent=v;n.className='notice '+(err?'error':'success');n.hidden=!v};
  async function call(path,method='GET',body){if(!API)throw Error('Die API-Adresse fehlt in songrequest/config.js.');let r=await fetch(API+path,{method,headers:{'Content-Type':'application/json','X-Admin-Pin':pass},body:body===undefined?undefined:JSON.stringify(body),cache:'no-store'});if(r.status===401)throw Error('Passwort ist nicht richtig.');let data=await r.json().catch(()=>({}));if(!r.ok)throw Error(data.error||'Serverfehler');return data}
  function show(login){$('login').classList.toggle('hidden',!login);$('dashboard').classList.toggle('hidden',login)}
@@ -51,10 +52,36 @@
      ul.append(li);
    }
  }
- async function refresh(){try{const [st,v]=await Promise.all([call('/admin/status'),call('/admin/requests')]);$('enabled').checked=!!st.requestsEnabled;allRequests=v.requests||[];render(allRequests);$('poll').textContent='Aktualisiert: '+new Date().toLocaleTimeString('de-IT',{hour:'2-digit',minute:'2-digit'});notify('');}
- catch(err){notify(err.message,true);if(err.message.includes('Passwort'))logout()}}
+ async function refresh(){
+   // Prevent multiple simultaneous refreshes (e.g. a timer and a focus event).
+   if(refreshPromise)return refreshPromise;
+   refreshPromise=(async()=>{
+     try{
+       const [st,v]=await Promise.all([call('/admin/status'),call('/admin/requests')]);
+       $('enabled').checked=!!st.requestsEnabled;
+       allRequests=v.requests||[];
+       render(allRequests);
+       $('poll').textContent='Auto alle 10 s · Aktualisiert: '+new Date().toLocaleTimeString('de-IT',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+       notify('');
+     }catch(err){
+       $('poll').textContent='Auto alle 10 s · Verbindung prüfen';
+       notify(err.message,true);
+       if(err.message.includes('Passwort'))logout();
+     }
+   })();
+   try{return await refreshPromise;}finally{refreshPromise=null;}
+ }
  async function login(){pass=$('password').value.trim();if(!pass)return;try{await call('/admin/status');sessionStorage.setItem('marco_admin_password',pass);show(false);await refresh();startPoll();if(C.oneSignalAppId)initPush();}catch(e){notify(e.message,true)}}
- function startPoll(){clearInterval(timer);timer=setInterval(()=>{if(!document.hidden)refresh()},15000)}
+ function refreshIfVisible(){
+   if(pass&&!document.hidden&&!$('dashboard').classList.contains('hidden'))void refresh();
+ }
+ function startPoll(){
+   clearInterval(timer);
+   timer=setInterval(refreshIfVisible,REFRESH_MS);
+ }
+ // Android may pause background tabs. Load the newest wishes immediately on return.
+ document.addEventListener('visibilitychange',refreshIfVisible);
+ window.addEventListener('focus',refreshIfVisible);
  function logout(){if(onesignal){onesignal.logout().catch(()=>{});onesignal=null}$('push').disabled=true;pass='';sessionStorage.removeItem('marco_admin_password');clearInterval(timer);show(true)}
  async function initPush(){
    if(onesignal||loadingPush||!C.oneSignalAppId||!pass)return;
