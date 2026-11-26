@@ -6,7 +6,7 @@
   <meta name="description" content="Choose a song from Marco Vendramin's acoustic live music repertoire.">
   <title>Song Request · Marco Vendramin</title>
   <link rel="stylesheet" href="./styles.css?v=20261125-fix3">
-  <script defer src="./config.js?v=20261125-live1"></script><script defer src="./app.js?v=20261125-fix3"></script>
+  <script defer src="./config.js?v=20261125-live1"></script><script defer src="./app.js?v=20261126-mobile-id-fix1"></script>
 </head>
 <body>
   <main class="shell">
@@ -35,6 +35,8 @@
     <div class="modal-card">
       <h2 class="modal-title" id="modal-heading">Request this song?</h2>
       <div id="modal-song" class="modal-song"></div><div id="modal-artist" class="modal-artist"></div>
+      <p class="fineprint">One request every 10 minutes · Played songs available again after 30 minutes.</p>
+      <p class="notice error" id="modal-feedback" role="alert" hidden></p>
       <div class="modal-actions"><button class="action secondary" type="button" id="cancel">Cancel</button><button class="action primary" type="button" id="send">Send request</button></div>
     </div>
   </div>
