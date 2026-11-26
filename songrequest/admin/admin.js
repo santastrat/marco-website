@@ -1,6 +1,6 @@
 (()=>{'use strict';
  const $=id=>document.getElementById(id);const C=window.MARCO_CONFIG||{};const API=String(C.apiBase||'').replace(/\/+$/,'');
- let pass=sessionStorage.getItem('marco_admin_password')||'',timer=null,onesignal=null,loadingPush=false,allRequests=[],refreshPromise=null;
+ let pass=sessionStorage.getItem('marco_admin_password')||'',timer=null,allRequests=[],refreshPromise=null;
  const REFRESH_MS=10000;
  const notify=(v,err=false)=>{const n=$('message');n.textContent=v;n.className='notice '+(err?'error':'success');n.hidden=!v};
  async function call(path,method='GET',body){if(!API)throw Error('Die API-Adresse fehlt in songrequest/config.js.');let r=await fetch(API+path,{method,headers:{'Content-Type':'application/json','X-Admin-Pin':pass},body:body===undefined?undefined:JSON.stringify(body),cache:'no-store'});if(r.status===401)throw Error('Passwort ist nicht richtig.');let data=await r.json().catch(()=>({}));if(!r.ok)throw Error(data.error||'Serverfehler');return data}
@@ -71,7 +71,7 @@
    })();
    try{return await refreshPromise;}finally{refreshPromise=null;}
  }
- async function login(){pass=$('password').value.trim();if(!pass)return;try{await call('/admin/status');sessionStorage.setItem('marco_admin_password',pass);show(false);await refresh();startPoll();if(C.oneSignalAppId)initPush();}catch(e){notify(e.message,true)}}
+ async function login(){pass=$('password').value.trim();if(!pass)return;try{await call('/admin/status');sessionStorage.setItem('marco_admin_password',pass);show(false);await refresh();startPoll();}catch(e){notify(e.message,true)}}
  function refreshIfVisible(){
    if(pass&&!document.hidden&&!$('dashboard').classList.contains('hidden'))void refresh();
  }
@@ -82,31 +82,8 @@
  // Android may pause background tabs. Load the newest wishes immediately on return.
  document.addEventListener('visibilitychange',refreshIfVisible);
  window.addEventListener('focus',refreshIfVisible);
- function logout(){if(onesignal){onesignal.logout().catch(()=>{});onesignal=null}$('push').disabled=true;pass='';sessionStorage.removeItem('marco_admin_password');clearInterval(timer);show(true)}
- async function initPush(){
-   if(onesignal||loadingPush||!C.oneSignalAppId||!pass)return;
-   loadingPush=true;
-   try {
-     // Only the authenticated performer receives the private external ID.
-     const {pushId}=await call('/admin/push-id');
-     window.OneSignalDeferred=window.OneSignalDeferred||[];
-     window.OneSignalDeferred.push(async (OS)=>{
-       try {
-         await OS.init({appId:C.oneSignalAppId,serviceWorkerPath:'/songrequest/OneSignalSDKWorker.js',serviceWorkerParam:{scope:'/songrequest/'},notifyButton:{enable:false}});
-         await OS.login(pushId);
-         onesignal=OS;
-         $('push').disabled=false;
-         $('push-hint').textContent='Aktiviere Push auf deinem Tablet. Die Benachrichtigungen werden nur an dein registriertes Gerät gesendet.';
-       } catch(e) {$('push-hint').textContent='Push konnte nicht initialisiert werden: '+e.message}
-     });
-     if(!document.querySelector('script[data-onesignal]')){
-       const script=document.createElement('script');script.src='https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js';script.defer=true;script.dataset.onesignal='1';document.head.append(script);
-     }
-   } catch(e) {$('push-hint').textContent='Push-Konfiguration fehlt: '+e.message}
-   finally {loadingPush=false}
- }
+ function logout(){pass='';sessionStorage.removeItem('marco_admin_password');clearInterval(timer);show(true)}
  $('login-button').addEventListener('click',login);$('password').addEventListener('keydown',e=>{if(e.key==='Enter')login()});$('logout').addEventListener('click',logout);$('refresh').addEventListener('click',refresh);
  $('enabled').addEventListener('change',async e=>{const checked=e.target.checked;try{await call('/admin/status','PUT',{requestsEnabled:checked});notify(checked?'Musikwünsche sind jetzt aktiviert.':'Musikwünsche sind pausiert.')}catch(err){e.target.checked=!checked;notify(err.message,true)}});
- $('push').addEventListener('click',async()=>{try{if(!onesignal)throw Error('OneSignal ist noch nicht verbunden.');await onesignal.Notifications.requestPermission();notify('Benachrichtigungseinstellungen geprüft.')}catch(e){notify(e.message,true)}});
- if(pass){show(false);refresh().then(()=>startPoll());if(C.oneSignalAppId)initPush()}else show(true);
+ if(pass){show(false);refresh().then(()=>startPoll())}else show(true);
 })();
